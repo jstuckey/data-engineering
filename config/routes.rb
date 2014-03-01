@@ -1,4 +1,12 @@
 DataEngineering::Application.routes.draw do
+  root to: "home#index"
+  post "upload", to: "home#upload"
+
+  resources :customers
+  resources :merchants
+  resources :items
+  resources :purchases
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
