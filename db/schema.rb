@@ -27,16 +27,16 @@ ActiveRecord::Schema.define(version: 20140301194309) do
     t.datetime "updated_at"
   end
 
-  create_table "merchants", force: true do |t|
-    t.string   "name"
-    t.string   "address"
+  create_table "items_purchases", force: true do |t|
+    t.integer  "item_id"
+    t.integer  "purchase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "purcahses_items", force: true do |t|
-    t.integer  "purchase_id"
-    t.integer  "item_id"
+  create_table "merchants", force: true do |t|
+    t.string   "name"
+    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
