@@ -1,15 +1,27 @@
 <div class="jumbotron">
 	<h1>Welcome to the family!</h1>
-	<p>Congratulations on the aquisition. Let's upload some sales data. Simply select your text file and click the upload button.</p>
+	<p>Congratulations on the aquisition. Let's upload some sales data. Simply select your text file and click the upload button below.</p>
 </div>
 <div class="row">
 	<div class="col-md-4"></div>
 	<div class="col-md-4">
-		<%= form_tag "/upload" do %>
-		<%= file_field_tag "file" %>
-		</br>
-		<%=submit_tag "Upload", class: "btn btn-lg" %>
+		<p id="notice"><%= notice %></p>
+		<%= form_tag "/upload", multipart: true do %>
+			<%= file_field_tag "file" %>
+			</br>
+			<%= submit_tag "Upload!", class: "btn" %>
 		<% end %>
+	</div>
+	<div class="col-md-4"></div>
+</div>
+<div class="row">
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		Need a sample file? Try one of these:</br>
+		<ul>
+			<li><a href="example_input.tab">Sample File 1</a></li>
+			<li><a href="example_input_2.tab">Sample File 2</a></li>
+		</ul>
 	</div>
 	<div class="col-md-4"></div>
 </div>
