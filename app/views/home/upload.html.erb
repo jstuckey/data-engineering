@@ -1,2 +1,37 @@
-<h1>Home#upload</h1>
-<p>Find me in app/views/home/upload.html.erb</p>
+<div class="jumbotron">
+	<h1>Upload Finished!</h1>
+	<% if @record_count > 0 %>
+		<p>Added <%= @record_count %> of your sales records to our database.</p>
+	<% end %>
+	<% if @error_count > 0 %>
+		<p>Failed to add <%= @error_count %> of sales records.</p>
+	<% end %>
+	<p>You uploaded <%= number_to_currency(@gross_revenue) %> in gross revenue.</p>
+</div>
+<div class="row">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Customer Name</th>
+				<th>Item Description</th>
+				<th>Item Pirce</th>
+				<th>Purchase Count</th>
+				<th>Merchant Address</th>
+				<th>Merchant Name</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% @purchases.each do |purchase| %>
+				<tr>
+					<td><%= purchase.customer.name %></td>
+					<td><%= purchase.items.first.description %></td>
+					<td><%= number_to_currency(purchase.items.first.price) %></td>
+					<td><%= purchase.count %></td>
+					<td><%= purchase.items.first.merchant.address %></td>
+					<td><%= purchase.items.first.merchant.name %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
