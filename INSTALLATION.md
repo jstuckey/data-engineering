@@ -48,10 +48,19 @@ If the bundle executable is not found, install it using Ruby Gems:
 gem install bundler
 ```
 
-Once [Bundler] is ready, install the required gems for this application:
+Once [Bundler] is ready, install the required gems for this application. From the project's root directory, type the following:
 
 ```sh
 bundle install
+```
+
+Database Setup
+--------------
+
+Type the following in the command line to setup the database:
+
+```sh
+rake db:migrate
 ```
 
 Run Project
@@ -70,6 +79,8 @@ Open the following URL in a browser. Make sure no other applications are current
 ```
 http://localhost:3000/
 ```
+
+To stop the application, type ```command + c``` in the command line.
 
 
 
