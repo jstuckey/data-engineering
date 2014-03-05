@@ -57,6 +57,12 @@ bundle install
 Database Setup
 --------------
 
+Type the following in the command line to create the database:
+
+```sh
+rake db:create
+```
+
 Type the following in the command line to setup the database:
 
 ```sh
