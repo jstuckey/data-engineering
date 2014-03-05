@@ -8,16 +8,16 @@ module ApplicationHelper
 		File.open(file_name).each_with_index do |line, index|
 
 			begin
-				# Skip the column header.
-				# The spec says we can always assume a header line.
+				# Skip the column header
+				# The spec says we can always assume a header line
 				next if index == 0
 
-				# Split the line delimited by tabs.
-				# The spec says the columns are always separated by tabs.
+				# Split the line delimited by tabs
+				# The spec says the columns are always separated by tabs
 				columns = line.split /\t/
 
-				# Break each column into its own object.
-				# The spec says the columns are always in the same order and always present.
+				# Break each column into its own object
+				# The spec says the columns are always in the same order and always present
 				customer_name = columns[0]
 				item_description = columns[1]
 				item_price = columns[2]
@@ -46,7 +46,7 @@ module ApplicationHelper
 				# Create a new purchase record
 				purchase = Purchase.new({ count: purchase_count })
 
-				# Add the item to the purchase
+				# Add the item to the purchase's collection
 				purchase.items << item
 
 				# Add the purchase to the user's collection
@@ -58,7 +58,7 @@ module ApplicationHelper
 				item.save
 				purchase.save
 
-				# Add to the array of purchase_ids
+				# Add to the array of purchase_ids so we can return them
 				purchase_ids << purchase.id
 
 				# Up the record count so we can return it
@@ -68,11 +68,13 @@ module ApplicationHelper
 
 				Rails.logger.error e
 
+				# Up the error count so we can return it
 				error_count = error_count + 1
 			end
 
 		end
 
+		# Return a hash of upload information
 		return { record_count: record_count, error_count: error_count, purchase_ids: purchase_ids }
 	end
 end
