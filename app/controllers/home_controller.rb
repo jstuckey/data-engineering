@@ -15,6 +15,7 @@ class HomeController < ApplicationController
       file_name = file.path()
 
       # Parse the uploaded file
+      # Defined in ApplicationHelper module
       results = parse_uploaded_file(file_name)
 
       # Return counts to the view
