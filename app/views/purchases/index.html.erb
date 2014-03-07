@@ -16,13 +16,14 @@
 
     <tbody>
       <% @purchases.each do |purchase| %>
+        <% purchase_item = purchase.items.first %>
         <tr>
-          <td><%= purchase.items.first.description %></td>
-          <td><%= number_to_currency(purchase.items.first.price) %></td>
+          <td><%= purchase_item.description if purchase_item %></td>
+          <td><%= number_to_currency(purchase_item.price) if purchase_item %></td>
           <td><%= purchase.count %></td>
           <td><%= purchase.customer.name %></td>
-          <td><%= purchase.items.first.merchant.name %></td>
-          <td><%= purchase.items.first.merchant.address %></td>
+          <td><%= purchase_item.merchant.name if purchase_item %></td>
+          <td><%= purchase_item.merchant.address if purchase_item %></td>
           <td><%= purchase.created_at %></td>
         </tr>
       <% end %>
