@@ -18,12 +18,12 @@ module ApplicationHelper
 
 				# Break each column into its own object
 				# The spec says the columns are always in the same order and always present
-				customer_name = columns[0]
-				item_description = columns[1]
-				item_price = columns[2]
-				purchase_count = columns[3]
-				merchant_address = columns[4]
-				merchant_name = columns[5]
+				customer_name = columns[0].strip
+				item_description = columns[1].strip
+				item_price = columns[2].strip
+				purchase_count = columns[3].strip
+				merchant_address = columns[4].strip
+				merchant_name = columns[5].strip
 
 				# Convert these raw variables into Active Record models
 
