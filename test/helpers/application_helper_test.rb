@@ -49,57 +49,42 @@ class ApplicationHelperTest < ActionView::TestCase
       	assert_equal 0, error_count, "The error count should be 0"
       	assert_equal 28, purchase_ids.length, "Purchase ID count should be 28"
 
-      	# -----------
-
-  #     	results = parse_uploaded_file(@bad_file)
-
-		# record_count = results[:record_count]
-  #     	error_count = results[:error_count]
-  #     	purchase_ids = results[:purchase_ids]
-
-  #     	assert_equal 0, record_count, "The record count should be 0"
-  #     	assert_equal 3, error_count, "The error count should be 3"
-  #     	assert_equal 0, purchase_ids.length, "Purchase ID count should be 0"
-
-
 	end
 
 	test "create customer" do
 
-		# No customer should exist yet
+		# # No customer should exist yet
 		customer = Customer.find_by( name: "Snake Plissken" )
 		assert customer.nil?, "This customer should not exist yet"
 
-		# Check total customer count
-		assert_equal 0, Customer.count, "No customers should exist yet"
-
-		# Upload the test file
-		parse_uploaded_file(@file1)
+		assert_difference('Customer.count', 1, "One customer should have been created") do
+	      	# Upload the test file
+			parse_uploaded_file(@file1)
+	    end
 
 		# Check that customer was added
 		customers = Customer.where( name: "Snake Plissken" )
 		refute customers.nil?, "A customer should have been added"
 		refute customers.first.nil?, "A customer should have been added"
-		assert_equal 1, customers.count, "Only one customer should have been added"
+		assert_equal 1, customers.count, "Only one customer should have been found"
 
 		customer = customers.first
 		assert_equal "Snake Plissken", customers.first.name, "Customer name does not match"
 		assert_equal 1, customer.purchases.count, "Customer's purchase count does not match"
 
-		# Upload the test file again
-		parse_uploaded_file(@file1)
+		assert_no_difference('Customer.count', "A new customer should not have been created") do
+			# Upload the test file again
+			parse_uploaded_file(@file1)
+		end
 
 		# Make sure a second customer was not added
 		customers = Customer.where( name: "Snake Plissken" )
 		refute customers.nil?, "A customer should exist"
 		refute customers.first.nil?, "A customer should exist"
-		assert_equal 1, customers.count, "A duplicate customer was added"
+		assert_equal 1, customers.count, "A duplicate customer was found"
 
 		# Another purchase should be added
 		assert_equal 2, customer.purchases.count, "Customer's purchase count does not match"
-
-		# Check total customer count
-		assert_equal 1, Customer.count, "One customer should have been created"
 
 	end
 
@@ -108,12 +93,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		# No merchant should exist yet
 		merchant = Merchant.find_by( name: "Bob's Pizza" )
 		assert merchant.nil?, "A merchant should not exist yet"
-
-		# Check total merchant count
-		assert_equal 0, Merchant.count, "No merchants should exist yet"
-
-		# Upload the test file
-		parse_uploaded_file(@file1)
+		assert_difference('Merchant.count', 1, "One merchant should have been created") do
+	      	# Upload the test file
+			parse_uploaded_file(@file1)
+	    end
 
 		# Check that merchant was added
 		merchants = Merchant.where( name: "Bob's Pizza" )
@@ -130,17 +113,16 @@ class ApplicationHelperTest < ActionView::TestCase
 		assert_equal "Pizza", item.description, "Item description does not match"
 		assert_equal 8, item.price, "Item price does not match"
 
-		# Upload the test file again
-		parse_uploaded_file(@file1)
+		assert_no_difference('Merchant.count', "A new merchant should not have been created") do
+			# Upload the test file again
+			parse_uploaded_file(@file1)
+		end
 
 		# Make sure a second merchant was not added
 		merchants = Merchant.where( name: "Bob's Pizza" )
 		refute merchants.nil?, "A merchant should have been added"
 		refute merchants.first.nil?, "A merchant should exist"
 		assert_equal 1, merchants.count, "A merchant should exist"
-
-		# Check total merchant count
-		assert_equal 1, Merchant.count, "One merchant should have been created"
 
 	end
 
@@ -150,11 +132,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		item = Item.find_by( description: "Pizza" )
 		assert item.nil?, "An item should not exist yet"
 
-		# Check total item count
-		assert_equal 0, Item.count, "No items should exist yet"
-
-		# Upload the test file
-		parse_uploaded_file(@file1)
+		assert_difference('Item.count', 1, "One item should have been created") do
+	      	# Upload the test file
+			parse_uploaded_file(@file1)
+	    end
 
 		# Check that item was added
 		items = Item.where( description: "Pizza" )
@@ -169,8 +150,10 @@ class ApplicationHelperTest < ActionView::TestCase
 		refute item.merchant.nil?, "Item should belong to a merchant"
 		assert_equal "Bob's Pizza", item.merchant.name, "Item's merchant name does not match"
 
-		# Upload the test file again
-		parse_uploaded_file(@file1)
+		assert_no_difference('Item.count', "A new item should not have been created") do
+			# Upload the test file again
+			parse_uploaded_file(@file1)
+		end
 
 		# Make sure a second item was not added
 		items = Item.where( description: "Pizza" )
@@ -178,25 +161,21 @@ class ApplicationHelperTest < ActionView::TestCase
 		refute items.first.nil?, "An item should exist"
 		assert_equal 1, items.count, "An item should exist"
 
-		# Check total item count
-		assert_equal 1, Item.count, "One item should have been created"
-
 	end
 
 	test "create purchase" do
 
-		# Check total purchase count
-		assert_equal 0, Purchase.count, "No purchases should exist yet"
-
-		# Upload the test file
-		parse_uploaded_file(@file1)
+		assert_difference('Purchase.count', 1, "One purchase should have been created") do
+	      	# Upload the test file
+			parse_uploaded_file(@file1)
+	    end
 
 		# Check that purchase was added
 		purchases = Purchase.all
 		refute purchases.nil?, "A purchase should have been added"
 		refute purchases.first.nil?, "A purchase should have been added"
 
-		purchase = purchases.first
+		purchase = purchases.last
 
 		assert_equal 2, purchase.count, "Purchase count does not match"
 		assert_equal 1, purchase.items.count, "Purchase's item count does not match"
@@ -208,13 +187,14 @@ class ApplicationHelperTest < ActionView::TestCase
 		refute purchase.customer.nil?, "Purchase should belong to a customer"
 		assert_equal "Snake Plissken", purchase.customer.name, "Purchase's customer name does not match"
 
-		# Upload the test file again
-		parse_uploaded_file(@file1)
+		assert_difference('Purchase.count', 1, "Another purchase should have been created") do
+	      	# Upload the test file again
+			parse_uploaded_file(@file1)
+	    end
 
 		# Make sure a second purchase was not added
 		purchases = Purchase.where( description: "Pizza" )
 		refute purchases.nil?, "Purchases should have been added"
-		assert_equal 2, Purchase.count, "Two purchases should have been created"
 
 	end
 
