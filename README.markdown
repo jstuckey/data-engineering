@@ -89,7 +89,7 @@ Run Tests
 Prepare the test database by executing the following in the command line:
 
 ```sh
-bundle exec rake db:test:prepare
+bundle exec rake db:test:load
 ```
 
 Run the tests with the following command:
